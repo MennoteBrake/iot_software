@@ -16,7 +16,9 @@ To install flask:
 ```
 flask/bin/pip3 install flask
 ```
+# Database
 
+```sqlite3 todo.db < create.sql```
 
 # To run:
 
