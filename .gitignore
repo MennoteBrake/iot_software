@@ -1,3 +1,5 @@
+## git ignore for C code
+
 # Prerequisites
 *.d
 
@@ -50,3 +52,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+## git ignore for python:
+pi_rest_server/flask/*
