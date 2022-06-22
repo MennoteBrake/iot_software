@@ -55,3 +55,8 @@ dkms.conf
 
 ## git ignore for python:
 pi_rest_server/flask/*
+virtEnv/*
+
+integration_test
+
+.vscode/

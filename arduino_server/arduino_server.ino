@@ -1,8 +1,8 @@
 #include <Ethernet.h>
 
 extern "C" {
-#include "cserver.h"
 #include "circularbuffer.h"
+#include "cserver.h"
 }
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
@@ -17,10 +17,10 @@ int clientAvailable() {
 char clientRead() { return httpClient.read(); }
 char clientPeek() { return httpClient.peek(); }
 
-//moet in de handlerequest ivm unittest
+// moet in de handlerequest ivm unittest
 const int buffer1Size = 20;
 const int buffer2Size = buffer1Size;
-const unsigned int sensorReadSpeed = 10; //10hz = 10 x per sec
+const unsigned int sensorReadSpeed = 10; // 10hz = 10 x per sec
 cbuffer* buffer1;
 cbuffer* buffer2;
 
@@ -32,16 +32,17 @@ void setup() {
   server.begin();
   Serial.print("server is at ");
   Serial.println(Ethernet.localIP());
-  
+
   buffer1 = cbInit(buffer1Size, OVERWRITE_IF_FULL);
   buffer2 = cbInit(buffer2Size, OVERWRITE_IF_FULL);
 
-//  cbuffer* buffer1 = cbInit(buffer1Size, OVERWRITE_IF_FULL);
-//  cbuffer* buffer2 = cbInit(buffer2Size, OVERWRITE_IF_FULL);
-  
-  if(!buffer1 || !buffer2){
-    ledsOnErrorMode();  
-  }  
+  //  cbuffer* buffer1 = cbInit(buffer1Size,
+  //  OVERWRITE_IF_FULL); cbuffer* buffer2 =
+  //  cbInit(buffer2Size, OVERWRITE_IF_FULL);
+
+  if (!buffer1 || !buffer2) {
+    ledsOnErrorMode();
+  }
   setupSensors(sensorReadSpeed, buffer1, buffer2);
 }
 
@@ -72,12 +73,12 @@ void loop() {
     Serial.println("client disconnected");
   }
   readSensors();
-//  if(cbAvailable(buffer2) == 1){
-//    Serial.print("buffer2: ");
-//    Serial.println(cbRead(buffer2));
-//  }
-//  if(cbAvailable(buffer1) == 1){
-//    Serial.print("buffer1: ");
-//    Serial.println(cbRead(buffer1));
-//  }
+  //  if(cbAvailable(buffer2) == 1){
+  //    Serial.print("buffer2: ");
+  //    Serial.println(cbRead(buffer2));
+  //  }
+  //  if(cbAvailable(buffer1) == 1){
+  //    Serial.print("buffer1: ");
+  //    Serial.println(cbRead(buffer1));
+  //  }
 }

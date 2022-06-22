@@ -32,7 +32,7 @@ LDLIBS=`pkg-config --libs glib-2.0` -lm
 arduino_IP=192.168.1.21
 rpi_IP=192.168.1.11
 
-object_files=$(project)/cserver.o buffermock.o
+object_files=$(project)/tokenizer.o $(project)/parser.o $(project)/cserver.o buffermock.o 
 
 # do not change:
 

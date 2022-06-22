@@ -1,7 +1,8 @@
 #ifndef cserver_h
 #define cserver_h
 
-#include "stream.h"
+// #include "stream.h"
+#include "parser.h"
 
 enum statuscode {
   INTERNAL_SERVER_ERROR_500, // failed to malloc cbuffers
@@ -28,11 +29,12 @@ struct response {
 
 struct response handleRequest(struct stream);
 
-//door mij toegevoegd
+// int readyToRespond(enum parserState, const struct
+// request*,
+//                   struct response*);
 
-int readyToRespond(enum parserState, const struct request*, struct response*);
+// void initLogger(void (*)(const char*));
 
-void initLogger(void (*)(const char*));
-
+struct response makeResponse(struct request* request);
 
 #endif
