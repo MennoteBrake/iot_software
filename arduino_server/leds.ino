@@ -1,7 +1,7 @@
-const int yellowLed1 = 3;
-const int greenLed1 = 4;
-const int redLed1 = 6;
-const int redLed2 = 5;
+const int yellowLed1 = 5;
+const int greenLed1 = 6;
+const int redLed1 = 7;
+const int redLed2 = 8;
 
 void setupLeds() {
   pinMode(yellowLed1, OUTPUT);
@@ -17,9 +17,17 @@ void ledsOnErrorMode() {
   digitalWrite(yellowLed1, HIGH);
 }
 
-void ledsBufferFull() {
-  digitalWrite(redLed1, HIGH);
-  digitalWrite(redLed2, HIGH);
+void ledsBufferFull(uint8_t leds) {
+  if (leds == 1 || leds == 3) {
+    digitalWrite(redLed1, HIGH);
+  }
+  if (leds == 2 || leds == 3) {
+    digitalWrite(redLed2, HIGH);
+  }
+  if (leds == 0) {
+    digitalWrite(redLed1, LOW);
+    digitalWrite(redLed2, LOW);
+  }
 }
 
 void allLedsOff() {

@@ -40,4 +40,7 @@ int setupBuffers();
 void addSensor1Measurement(int dataSensor1);
 void addSensor2Measurement(int dataSensor2);
 
+uint8_t isABufferFull();
+int getSensorModus();
+int resetBuffers();
 #endif

@@ -3,25 +3,26 @@
 #include "statistics.h"
 #include <stdio.h>
 
+#define NDEBUG
 #define MSG_SIZE 100
 
 int messageBody = 0;
 cbuffer* buffer1 = NULL;
 cbuffer* buffer2 = NULL;
 const int buffer1StartSize = 20;
-const int buffer2StartSize = buffer1StartSize;
+const int buffer2StartSize = 20;
 enum cbmode bufferMode = OVERWRITE_IF_FULL;
 
 const int activeMode = 0;
 const int passiveMode = 1;
-int dataMode = activeMode;
+int dataMode = 0;
 
 struct response handleRequest(struct stream stream) {
   enum parserState state = EXPECT_METHOD;
   struct request request = {.method = METHOD_UNKNOWN, .target = TARGET_UNKNOWN};
 
   int done = 0;
-
+  char msg[MSG_SIZE] = {0};
   while (!done) {
     struct token token = getNextToken(stream);
 
@@ -164,4 +165,28 @@ void addSensor2Measurement(int dataSensor2) {
   // printf(" dataSensor2 %i \n", dataSensor2);
   cbAdd(buffer2, (cbtype)dataSensor2);
   addToAverageSensor2(dataSensor2);
+}
+
+uint8_t isABufferFull() {
+  uint8_t temp = 0;
+  if (buffer1->count == buffer1->size) {
+    ++temp;
+  }
+  if (buffer2->count == buffer2->size) {
+    temp += 2;
+  }
+  return temp;
+}
+
+int getSensorModus() {
+  return dataMode;
+}
+
+int resetBuffers() {
+  cbFree(buffer1);
+  cbFree(buffer2);
+  resetMeasurementsSensor1();
+  resetMeasurementsSensor2();
+
+  return setupBuffers();
 }
