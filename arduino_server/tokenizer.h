@@ -1,10 +1,11 @@
 #ifndef TOKENIZER_H
 #define TOKENIZER_H
 
+#include "circularbuffer.h"
 #include "stream.h"
 
 #define TOKEN_LEN 20
-#define TOKEN_ARR_LEN                                      \
+#define TOKEN_ARR_LEN \
   TOKEN_LEN + 1 // one more to accomodate for null char
 
 enum tokenType {
@@ -23,5 +24,9 @@ struct token {
 };
 
 struct token getNextToken(struct stream stream);
+
+int isNumber(char c);
+int isLetter(char c);
+int isOther(char c);
 
 #endif

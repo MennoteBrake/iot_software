@@ -10,7 +10,8 @@ typedef unsigned long cbtype;
 /**
  * buffers come in two variants
  */
-enum cbmode { OVERWRITE_IF_FULL, IGNORE_IF_FULL };
+enum cbmode { OVERWRITE_IF_FULL,
+              IGNORE_IF_FULL };
 /**
  * buffer data, do not modify in client!
  */
@@ -54,4 +55,5 @@ cbtype cbRead(cbuffer* buffer);
  */
 int8_t cbAdd(cbuffer* buffer, cbtype value);
 
+cbtype cbPeekPos(cbuffer* buffer, int position);
 #endif

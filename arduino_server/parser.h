@@ -1,8 +1,7 @@
 #ifndef parser_h
 #define parser_h
-
 #include "tokenizer.h"
-//#include <stdint.h>
+#include <stdint.h>
 
 enum parserState {
   EXPECT_METHOD,         // 0 GET | POST
@@ -49,7 +48,7 @@ struct request {
 
 enum parserState parseNextToken(struct token tok,
                                 enum parserState curr,
-                                struct request* request);
+                                struct request* request, int* messageBody);
 
 void checkTarget(const struct token tok,
                  struct request* request);
@@ -57,8 +56,7 @@ void checkTarget(const struct token tok,
 enum parserState expectMethod(struct token tok, struct request* request);
 enum parserState expectWS(struct token tok, struct request* request, enum parserState wsCounter);
 enum parserState expectCTRL_CRLF(struct token tok, struct request* request, enum parserState ctrlCounter);
-
-
+enum parserState expectContentBody(struct token tok, struct request* request, int* messageBody);
 
 int isNumber(char c);
 int isLetter(char c);

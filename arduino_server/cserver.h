@@ -1,16 +1,15 @@
 #ifndef cserver_h
 #define cserver_h
 
-// #include "stream.h"
 #include "parser.h"
 
 enum statuscode {
-  INTERNAL_SERVER_ERROR_500, // failed to malloc cbuffers
-  BAD_REQUEST_400,           // bad request
-  NOT_FOUND_404,             // request target not found
-  OK_200_GET_AVG,            // get mean
-  OK_200_GET_STDEV,          // get standard deviation
-  OK_200_GET_ACTUAL,         // empty cbuffer, get its mean
+  INTERNAL_SERVER_ERROR_500,      // failed to malloc cbuffers
+  BAD_REQUEST_400,                // bad request
+  NOT_FOUND_404,                  // request target not found
+  OK_200_GET_AVG,                 // get mean
+  OK_200_GET_STDEV,               // get standard deviation
+  OK_200_GET_ACTUAL,              // empty cbuffer, get its mean
   CREATED_201_PUT_MODE_ACTIVE,    // start reading sensors
   CREATED_201_PUT_MODE_PASSIVE,   // stop reading sensors
   CREATED_201_PUT_CBUFFSIZE,      // send new cbuffer size
@@ -35,6 +34,10 @@ struct response handleRequest(struct stream);
 
 // void initLogger(void (*)(const char*));
 
-struct response makeResponse(struct request* request);
+struct response makeResponse(struct request* request, int messageBody);
+
+int setupBuffers();
+void addSensor1Measurement(int dataSensor1);
+void addSensor2Measurement(int dataSensor2);
 
 #endif

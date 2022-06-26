@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 cbuffer* cbInit(int8_t size, enum cbmode mode) {
-
   cbuffer* var = malloc(sizeof(cbtype));
 
   if (!var) {
@@ -28,6 +27,8 @@ cbuffer* cbFree(cbuffer* buffer) {
 }
 
 int cbAvailable(cbuffer* buffer) {
+  if (buffer == NULL)
+    return 0;
   if (buffer->count == 0) {
     return 0;
   } else {
@@ -36,10 +37,14 @@ int cbAvailable(cbuffer* buffer) {
 }
 
 cbtype cbPeek(cbuffer* buffer) {
+  if (buffer == NULL)
+    return 0;
   return buffer->data[buffer->start];
 }
 
 cbtype cbRead(cbuffer* buffer) {
+  if (buffer == NULL)
+    return 0;
   cbtype bufferVar = buffer->data[buffer->start];
   buffer->start++;
   buffer->count--;
@@ -51,14 +56,14 @@ cbtype cbRead(cbuffer* buffer) {
 }
 
 int8_t cbAdd(cbuffer* buffer, cbtype value) {
+  if (buffer == NULL)
+    return 0;
   uint8_t pos = buffer->start + buffer->count;
 
   if (buffer->count >= buffer->size) {
     if (buffer->mode == OVERWRITE_IF_FULL) {
       buffer->data[buffer->start] = value;
-      buffer->start = (buffer->start >= buffer->size)
-                          ? 0
-                          : buffer->start + 1;
+      buffer->start = (buffer->start >= buffer->size) ? 0 : buffer->start + 1;
       return 1;
     } else {
       return 0;
@@ -72,4 +77,20 @@ int8_t cbAdd(cbuffer* buffer, cbtype value) {
     buffer->count++;
     return 1;
   }
+}
+
+cbtype cbPeekPos(cbuffer* buffer, int position) {
+  if (buffer == NULL)
+    return 0;
+
+  if (position >= buffer->size) {
+    position = buffer->size - 1;
+  }
+
+  uint8_t pos = buffer->start + position;
+
+  if (pos >= buffer->size) {
+    pos -= buffer->size;
+  }
+  return buffer->data[pos];
 }
