@@ -2,6 +2,7 @@
 #define parser_h
 
 #include "tokenizer.h"
+//#include <stdint.h>
 
 enum parserState {
   EXPECT_METHOD,         // 0 GET | POST
@@ -52,6 +53,12 @@ enum parserState parseNextToken(struct token tok,
 
 void checkTarget(const struct token tok,
                  struct request* request);
+
+enum parserState expectMethod(struct token tok, struct request* request);
+enum parserState expectWS(struct token tok, struct request* request, enum parserState wsCounter);
+enum parserState expectCTRL_CRLF(struct token tok, struct request* request, enum parserState ctrlCounter);
+
+
 
 int isNumber(char c);
 int isLetter(char c);

@@ -21,46 +21,14 @@ enum parserState parseNextToken(struct token tok, enum parserState curr, struct 
     case EXPECT_METHOD:
       if (tok.type == WORD)
       {
-        printf("word \n");
-        // compare strings up till last null char
-        if (strncmp(tok.value, "GET", TOKEN_ARR_LEN) == 0)
-        {
-          printf("GET \n");
-          request->method = GET;
-          return EXPECT_WS_1;
-        }
-        else if (strncmp(tok.value, "POST", TOKEN_LEN - 1) == 0)
-        {
-          printf(" POST \n");
-          request->method = POST;
-          return EXPECT_WS_1;
-        }
-        else if (strncmp(tok.value, "PUT", TOKEN_LEN - 1) == 0)
-        {
-          printf("PUT \n");
-          request->method = PUT;
-          return EXPECT_WS_1;
-        }
-        else
-        {
-          request->method = METHOD_ERROR;
-          return ERROR;
-        }
+        return expectMethod(tok, request);
       }
       else
       {
         return ERROR;
       }
     case EXPECT_WS_1:
-      if (tok.type == WS && strncmp(tok.value, " ", TOKEN_ARR_LEN) == 0)
-      {
-        printf("WS \n");
-        return EXPECT_TARGET;
-      }
-      else
-      {
-        return ERROR;
-      }
+      return expectWS(tok, request, EXPECT_WS_1);
     case EXPECT_TARGET:
       if (tok.type == WORD)
       {
@@ -73,15 +41,7 @@ enum parserState parseNextToken(struct token tok, enum parserState curr, struct 
         return ERROR;
       }
     case EXPECT_WS_2:
-      if (tok.type == WS && strncmp(tok.value, " ", TOKEN_ARR_LEN) == 0)
-      {
-        printf("WS2 \n");
-        return EXPECT_VERSION;
-      }
-      else
-      {
-        return ERROR;
-      }
+      return expectWS(tok, request, EXPECT_WS_2);
     case EXPECT_VERSION:
       if (tok.type == WORD && strncmp(tok.value, "HTTP/1.0", TOKEN_ARR_LEN) == 0)
       {
@@ -93,22 +53,7 @@ enum parserState parseNextToken(struct token tok, enum parserState curr, struct 
         return ERROR;
       }
     case EXPECT_CRLF_CRLF:
-      if (tok.type == EOL && strncmp(tok.value, "\r\n\r\n", TOKEN_ARR_LEN) == 0)
-      {
-        printf("EXPECT CRLF CRLF \n");
-        if (request->method == POST)
-        {
-          return EXPECT_CONTENT_LENGTH;
-        }
-        else
-        {
-          return DONE;
-        }
-      }
-      else
-      {
-        return ERROR;
-      }
+      return expectCTRL_CRLF(tok, request, EXPECT_CRLF_CRLF);
     case DONE:
       printf("DONE \n");
       return DONE;
@@ -123,15 +68,16 @@ enum parserState parseNextToken(struct token tok, enum parserState curr, struct 
         return ERROR;
       }
     case EXPECT_WS_3:
-      if (tok.type == WS && strncmp(tok.value, " ", TOKEN_ARR_LEN) == 0)
-      {
-        printf("EXPECT WS3 \n");
-        return EXPECT_LENGTH;
-      }
-      else
-      {
-        return ERROR;
-      }
+      return expectWS(tok, request, EXPECT_WS_3);
+      // if (tok.type == WS && strncmp(tok.value, " ", TOKEN_ARR_LEN) == 0)
+      // {
+      //   printf("EXPECT WS3 \n");
+      //   return EXPECT_LENGTH;
+      // }
+      // else
+      // {
+      //   return ERROR;
+      // }
     case EXPECT_LENGTH:
 
       if (tok.type == NUMBER)
@@ -145,15 +91,17 @@ enum parserState parseNextToken(struct token tok, enum parserState curr, struct 
         return ERROR;
       }
     case EXPECT_CRLF_CRLF_2:
-      if (tok.type == EOL && strncmp(tok.value, "\r\n\r\n", TOKEN_ARR_LEN) == 0)
-      {
-        printf("EXPECT CTRL CRLF 2 \n");
-        return EXPECT_CONTENT_BODY;
-      }
-      else
-      {
-        return ERROR;
-      }
+      return expectCTRL_CRLF(tok, request, EXPECT_CRLF_CRLF_2);
+
+      // if (tok.type == EOL && strncmp(tok.value, "\r\n\r\n", TOKEN_ARR_LEN) == 0)
+      // {
+      //   printf("EXPECT CTRL CRLF 2 \n");
+      //   return EXPECT_CONTENT_BODY;
+      // }
+      // else
+      // {
+      //   return ERROR;
+      // }
     case EXPECT_CONTENT_BODY:
       if (tok.type == WORD || tok.type == NUMBER)
       {
@@ -173,40 +121,33 @@ enum parserState parseNextToken(struct token tok, enum parserState curr, struct 
         return ERROR;
       }
     case EXPECT_CRLF_CRLF_3:
-      if (tok.type == EOL && strncmp(tok.value, "\r\n\r\n", TOKEN_ARR_LEN) == 0)
-      {
-        printf("EXPECT CTRL CRLF 3 \n");
-        return DONE;
-      }
-      else
-      {
-        return ERROR;
-      }
+      return expectCTRL_CRLF(tok, request, EXPECT_CRLF_CRLF_2);
+
+      // if (tok.type == EOL && strncmp(tok.value, "\r\n\r\n", TOKEN_ARR_LEN) == 0)
+      // {
+      //   printf("EXPECT CTRL CRLF 3 \n");
+      //   return DONE;
+      // }
+      // else
+      // {
+      //   return ERROR;
+      // }
     default:
       return ERROR;
   }
 }
 
-// mem isue met tok.type
-
 void checkTarget(const struct token tok, struct request* request)
 {
-  // printf("check target  \n");
-  printf("expect target %i \n", tok.type);
-  printf("expect target %i \n", request->method);
-
   if (request->method == GET && strncmp(tok.value, "/sensors/1/avg", TOKEN_ARR_LEN) == 0)
   {
-    // printf("AVG SENSOR1  \n");
     request->target = AVG1;
     printf("AVG SENSOR1 %i \n", AVG1);
-    printf("req target %i \n", request->target);
   }
-  else if (request->method == GET && strncmp(tok.value, "/sensors/1/avg", TOKEN_ARR_LEN) == 0)
+  else if (request->method == GET && strncmp(tok.value, "/sensors/2/avg", TOKEN_ARR_LEN) == 0)
   {
     printf("AVG SENSOR2 %i \n", AVG2);
     request->target = AVG2;
-    printf("req target %i \n", request->target);
   }
   //   else if(request->method == GET && strncmp(tok->value,
   //   "/sensors/1/stdev", TOKEN_ARR_LEN) == 0){
@@ -256,6 +197,87 @@ void checkTarget(const struct token tok, struct request* request)
   {
     printf("target unknown  \n");
     request->target = TARGET_UNKNOWN;
+  }
+}
+
+// ifs for the parserStates.
+enum parserState expectMethod(struct token tok, struct request* request)
+{
+  if (strncmp(tok.value, "GET", TOKEN_ARR_LEN) == 0)
+  {
+    printf("GET \n");
+    request->method = GET;
+    return EXPECT_WS_1;
+  }
+  else if (strncmp(tok.value, "POST", TOKEN_LEN - 1) == 0)
+  {
+    printf(" POST \n");
+    request->method = POST;
+    return EXPECT_WS_1;
+  }
+  else if (strncmp(tok.value, "PUT", TOKEN_LEN - 1) == 0)
+  {
+    printf("PUT \n");
+    request->method = PUT;
+    return EXPECT_WS_1;
+  }
+  else
+  {
+    request->method = METHOD_ERROR;
+    return ERROR;
+  }
+}
+
+enum parserState expectWS(struct token tok, struct request* request, enum parserState wsCounter)
+{
+  if (tok.type == WS && strncmp(tok.value, " ", TOKEN_ARR_LEN) == 0)
+  {
+    switch (wsCounter)
+    {
+      case EXPECT_WS_1:
+        printf("WS1 \n");
+        return EXPECT_TARGET;
+      case EXPECT_WS_2:
+        printf("WS2 \n");
+        return EXPECT_VERSION;
+      case EXPECT_WS_3:
+        printf("WS3 \n");
+        return EXPECT_LENGTH;
+      default:
+        return ERROR;
+    }
+  }
+  else
+  {
+    return ERROR;
+  }
+}
+
+enum parserState expectCTRL_CRLF(struct token tok, struct request* request, enum parserState ctrlCounter)
+{
+  if (tok.type == EOL && strncmp(tok.value, "\r\n\r\n", TOKEN_ARR_LEN) == 0)
+  {
+    switch (ctrlCounter)
+    {
+      case EXPECT_CRLF_CRLF:
+        printf("EXPECT CRLF CRLF \n");
+        if (request->method == POST)
+        {
+          return EXPECT_CONTENT_LENGTH;
+        }
+        else
+        {
+          return DONE;
+        }
+      case EXPECT_CRLF_CRLF_2:
+        return EXPECT_CONTENT_BODY;
+      case EXPECT_CRLF_CRLF_3:
+        return DONE;
+    }
+  }
+  else
+  {
+    return ERROR;
   }
 }
 
