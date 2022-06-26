@@ -24,7 +24,7 @@ cbuffer* cbInit(int8_t size, enum cbmode mode) {
 
 cbuffer* cbFree(cbuffer* buffer) {
   free(buffer);
-  return &buffer;
+  return NULL;
 }
 
 int cbAvailable(cbuffer* buffer) {
@@ -41,33 +41,35 @@ cbtype cbPeek(cbuffer* buffer) {
 
 cbtype cbRead(cbuffer* buffer) {
   cbtype bufferVar = buffer->data[buffer->start];
-  buffer->data[buffer->start] = NULL;
-  buffer->start += sizeof(cbtype);
-  buffer->count -= 1;
-  if (buffer->start == (buffer->size * sizeof(cbtype))) {
+  buffer->start++;
+  buffer->count--;
+
+  if (buffer->start >= buffer->size) {
     buffer->start = 0;
   }
   return bufferVar;
 }
 
 int8_t cbAdd(cbuffer* buffer, cbtype value) {
+  uint8_t pos = buffer->start + buffer->count;
+
   if (buffer->count >= buffer->size) {
     if (buffer->mode == OVERWRITE_IF_FULL) {
       buffer->data[buffer->start] = value;
-      buffer->start += sizeof(cbtype);
-      if (buffer->start >=
-          (buffer->size * sizeof(cbtype))) {
-        buffer->start = 0;
-      }
+      buffer->start = (buffer->start >= buffer->size)
+                          ? 0
+                          : buffer->start + 1;
       return 1;
     } else {
       return 0;
     }
-
   } else {
-    buffer->data[(buffer->start + buffer->count) %
-                 buffer->size] = value;
-    buffer->count += 1;
+    if (pos >= buffer->size) {
+      pos -= buffer->size;
+    }
+
+    *(buffer->data + pos) = value;
+    buffer->count++;
     return 1;
   }
 }
