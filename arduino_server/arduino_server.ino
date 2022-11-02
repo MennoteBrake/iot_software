@@ -48,7 +48,6 @@ void loop() {
     struct stream stream = {clientAvailable, clientPeek,
                             clientRead};
     struct response response = handleRequest(stream);
-
     createResponse(response);
     // if (response.code == INTERNAL_SERVER_ERROR_500) {
     //   httpClient.println(
@@ -131,11 +130,4 @@ void createResponse(struct response response) {
         F("HTTP/1.1 500 Internal Server Error"));
     httpClient.println();
   }
-
-  //  if(response.code == CREATED_201_PUT_MODE_PASSIVE)
-  //  {
-  //      httpClient.println(
-  //          F("HTTP/1.1 201"));
-  //      httpClient.println();
-  //    }
 }

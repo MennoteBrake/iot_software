@@ -30,9 +30,9 @@ LDLIBS=`pkg-config --libs glib-2.0` -lm
 # your configuration:
 
 arduino_IP=192.168.1.21
-rpi_IP=192.168.1.11
+rpi_IP=169.254.95.194:5000#192.168.1.11
 
-object_files=$(project)/tokenizer.o $(project)/parser.o $(project)/cserver.o buffermock.o 
+object_files=$(project)/tokenizer.o $(project)/parser.o $(project)/cserver.o buffermock.o $(project)/circularbuffer.o $(project)/statistics.o
 
 # do not change:
 
@@ -56,8 +56,8 @@ rpi: prepare fmt accept_rpi
 $(unittest): $(object_files)
 
 fmt:
-	clang-format -style='{PointerAlignment: Left, ColumnLimit: 60}' -i $(project)/*.c $(project)/*.h $(project)/*.ino
-	clang-format -style='{PointerAlignment: Left, ColumnLimit: 60}' -i *.c *.h
+	clang-format -style='{PointerAlignment: Left, ColumnLimit: 0}' -i $(project)/*.c $(project)/*.h $(project)/*.ino
+	clang-format -style='{PointerAlignment: Left, ColumnLimit: 0}' -i *.c *.h
 	autopep8 -i *.py
 
 check: $(unittest)

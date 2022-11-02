@@ -18,7 +18,7 @@ flask/bin/pip3 install flask
 ```
 # Database
 
-```sqlite3 todo.db < create.sql```
+```sqlite3 restserver.db < create_server_db.sql```
 
 # To run:
 
@@ -26,3 +26,12 @@ flask/bin/pip3 install flask
 export FLASK_APP=server.py
 flask/bin/flask run --host=0.0.0.0
 ```
+
+## trouble shooting
+- The ip that was set will maybe not work correctly, you can change it in the makefile to one that is seen when starting up flask
+
+To check if that IP works you can use for example```curl -v 169.254.95.194:5000```
+
+## turn wifi on or of
+### Off
+sudo ifconfig wlan0 down
