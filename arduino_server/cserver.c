@@ -28,7 +28,7 @@ struct response handleRequest(struct stream stream) {
 
 #ifndef NDEBUG
     snprintf(msg, MSG_SIZE, "* token type %d, token value (\"%s\")\n", token.type, token.value);
-//    logmsg/(msg);
+    //  logmsg/(msg);
 #endif
 
     enum parserState next = parseNextToken(token, state, &request, &messageBody);

@@ -90,7 +90,7 @@ void checkTarget(const struct token tok, struct request* request) {
   } else if (request->method == GET && strncmp(tok.value, "/sensors/2/actual", TOKEN_ARR_LEN) == 0) {
     request->target = ACTUAL2;
   } else if (request->method == PUT && strncmp(tok.value, "/config/mode", TOKEN_ARR_LEN) == 0) {
-    //printf("CONFIG MODE\n");
+    // printf("CONFIG MODE\n");
     request->target = CONFIG_MODE;
   } else if (request->method == PUT && strncmp(tok.value, "/config/cbuffsize", TOKEN_ARR_LEN) == 0) {
     request->target = CONFIG_BUFF_SIZE;

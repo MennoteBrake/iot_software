@@ -46,18 +46,16 @@ struct request {
   } target;
 };
 
-enum parserState parseNextToken(struct token tok,
-                                enum parserState curr,
-                                struct request* request, int* messageBody);
+enum parserState parseNextToken(struct token tok, enum parserState curr, struct request* request, int* messageBody);
 
-void checkTarget(const struct token tok,
-                 struct request* request);
+void checkTarget(const struct token tok, struct request* request);
 
 enum parserState expectMethod(struct token tok, struct request* request);
 enum parserState expectWS(struct token tok, struct request* request, enum parserState wsCounter);
 enum parserState expectCTRL_CRLF(struct token tok, struct request* request, enum parserState ctrlCounter);
 enum parserState expectContentBody(struct token tok, struct request* request, int* messageBody);
 
+//needs to go
 int isNumber(char c);
 int isLetter(char c);
 int isOther(char c);

@@ -30,7 +30,7 @@ LDLIBS=`pkg-config --libs glib-2.0` -lm
 # your configuration:
 
 arduino_IP=192.168.1.21
-rpi_IP=169.254.95.194:5000#192.168.1.11
+rpi_IP=192.168.1.11:5000
 
 object_files=$(project)/tokenizer.o $(project)/parser.o $(project)/cserver.o buffermock.o $(project)/circularbuffer.o $(project)/statistics.o
 

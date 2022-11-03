@@ -49,7 +49,7 @@ def regression(data):
     partA = xSquareSum - ((xSum **2) / amountOfValues)
     partC = xySum - ((xSum * ySum) / amountOfValues)
     partD = xToThePowerOf3Sum - ((xSum * xSquareSum) / amountOfValues)
-    partE = xToThePowerOf4Sum - ((xSquareSum ** 2) / amountOfValues) # gives a diferent value than excel
+    partE = xToThePowerOf4Sum - ((xSquareSum ** 2) / amountOfValues)
     partF = xSquareYSum - ((xSquareSum * ySum)/ amountOfValues)
 
     a = ((partC * partD) - (partA * partF)) / ((partD ** 2) - (partA * partE))

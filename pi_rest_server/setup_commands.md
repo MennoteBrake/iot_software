@@ -24,7 +24,7 @@ flask/bin/pip3 install flask
 
 ```
 export FLASK_APP=server.py
-flask/bin/flask run --host=0.0.0.0
+flask/bin/flask run -h 192.168.1.11
 ```
 
 ## trouble shooting

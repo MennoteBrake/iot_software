@@ -60,3 +60,5 @@ virtEnv/*
 integration_test
 
 .vscode/
+
+*.db

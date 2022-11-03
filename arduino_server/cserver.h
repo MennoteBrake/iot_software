@@ -32,8 +32,6 @@ struct response handleRequest(struct stream);
 // request*,
 //                   struct response*);
 
-// void initLogger(void (*)(const char*));
-
 struct response makeResponse(struct request* request, int messageBody);
 
 int setupBuffers();
