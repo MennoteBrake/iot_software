@@ -46,18 +46,61 @@ struct request {
   } target;
 };
 
+/**
+ * @brief parses the next token
+ * 
+ * @param tok The type of token
+ * @param curr The current state
+ * @param request The request
+ * @param messageBody the message body
+ * @return enum parserState 
+ */
 enum parserState parseNextToken(struct token tok, enum parserState curr, struct request* request, int* messageBody);
 
+/**
+ * @brief Checks the target of the request
+ * 
+ * @param tok The token to check
+ * @param request The request
+ */
 void checkTarget(const struct token tok, struct request* request);
 
+/**
+ * @brief Checks for a known method
+ * 
+ * @param tok The token
+ * @param request The request
+ * @return enum parserState 
+ */
 enum parserState expectMethod(struct token tok, struct request* request);
+
+/**
+ * @brief Checks for a whitespace
+ * 
+ * @param tok The token
+ * @param request The request
+ * @param wsCounter The amount of whitespaces already counted
+ * @return enum parserState 
+ */
 enum parserState expectWS(struct token tok, struct request* request, enum parserState wsCounter);
+
+/**
+ * @brief Checks for a CTRL CTRL
+ * 
+ * @param tok The token
+ * @param request The request
+ * @param ctrlCounter The amount of ctrl's already counted
+ * @return enum parserState 
+ */
 enum parserState expectCTRL_CRLF(struct token tok, struct request* request, enum parserState ctrlCounter);
+
+/**
+ * @brief Checks for a content body
+ * 
+ * @param tok The token
+ * @param request The request
+ * @param messageBody The message body
+ * @return enum parserState 
+ */
 enum parserState expectContentBody(struct token tok, struct request* request, int* messageBody);
-
-//needs to go
-int isNumber(char c);
-int isLetter(char c);
-int isOther(char c);
-
 #endif

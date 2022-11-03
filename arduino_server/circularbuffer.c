@@ -6,7 +6,7 @@ cbuffer* cbInit(int8_t size, enum cbmode mode) {
   cbuffer* var = malloc(sizeof(cbtype));
 
   if (!var) {
-    return NULL; // moet null returnen.
+    return NULL;
   }
   var->data = malloc(size * sizeof(cbtype));
   if (!var->data) {

@@ -23,10 +23,36 @@ struct token {
   char value[TOKEN_ARR_LEN];
 };
 
+/**
+ * @brief Get the next token in the stream
+ * 
+ * @param stream 
+ * @return struct token 
+ */
 struct token getNextToken(struct stream stream);
 
+/**
+ * @brief Checks if the char is a number
+ * 
+ * @param c The char to check
+ * @return int 
+ */
 int isNumber(char c);
+
+/**
+ * @brief Checks if the char is a letter
+ * 
+ * @param c The char to check
+ * @return int 
+ */
 int isLetter(char c);
+
+/**
+ * @brief Checks if the char is an other character
+ * 
+ * @param c The char to check
+ * @return int 
+ */
 int isOther(char c);
 
 #endif

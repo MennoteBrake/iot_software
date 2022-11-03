@@ -79,8 +79,6 @@ float getActual(cbuffer* buffer) {
   for (int i = 0; i < buffer->count; ++i) {
     cbtype val = cbPeekPos(buffer, i);
     actual += val;
-    // printf(" i: %i", i);
-    // printf(" val: %i \n", val);
   }
   return actual / buffer->count;
 }

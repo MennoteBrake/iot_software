@@ -26,19 +26,60 @@ struct response {
   };
 };
 
+/**
+ * @brief Handles the incoming request
+ * 
+ * @return struct response 
+ */
 struct response handleRequest(struct stream);
 
-// int readyToRespond(enum parserState, const struct
-// request*,
-//                   struct response*);
-
+/**
+ * @brief creates a response based on the request, and executes what was asked from the server
+ * 
+ * @param request the request that was given
+ * @param messageBody the body of the message
+ * @return struct response 
+ */
 struct response makeResponse(struct request* request, int messageBody);
 
+/**
+ * @brief creates the circular buffers
+ * 
+ * @return int returns 0 when failed, and 1 when successful
+ */
 int setupBuffers();
+
+/**
+ * @brief adds sensor data to the buffer
+ * 
+ * @param dataSensor1 
+ */
 void addSensor1Measurement(int dataSensor1);
+/**
+ * @brief adds sensor data to the buffer
+ * 
+ * @param dataSensor2 
+ */
 void addSensor2Measurement(int dataSensor2);
 
+/**
+ * @brief checks if a buffer is full
+ * 
+ * @return uint8_t 
+ */
 uint8_t isABufferFull();
+
+/**
+ * @brief gets the sensor mode
+ * 
+ * @return int 
+ */
 int getSensorModus();
+
+/**
+ * @brief resets the buffers
+ * 
+ * @return int returns 0 when failed, and 1 when successful
+ */
 int resetBuffers();
 #endif

@@ -28,17 +28,14 @@ struct response handleRequest(struct stream stream) {
 
 #ifndef NDEBUG
     snprintf(msg, MSG_SIZE, "* token type %d, token value (\"%s\")\n", token.type, token.value);
-    //  logmsg/(msg);
 #endif
 
     enum parserState next = parseNextToken(token, state, &request, &messageBody);
 
 #ifndef NDEBUG
     snprintf(msg, MSG_SIZE, "* parser state %d\n", next);
-//    logms/g(msg);
 #endif
 
-    //done = state == DONE; // readyToRespond(state, &request, &response);
     if (state == ERROR || state == DONE) {
       done = DONE;
     }
@@ -48,7 +45,6 @@ struct response handleRequest(struct stream stream) {
 }
 
 struct response makeResponse(struct request* request, int messageBody) {
-  //printf("target %i \n", request->target);
   struct response response;
   if (request->method == METHOD_UNKNOWN) {
     response.code = BAD_REQUEST_400;
@@ -135,7 +131,6 @@ struct response makeResponse(struct request* request, int messageBody) {
     return response;
 
   case POST_SENSOR2:
-    //printf(" messageBody %i \n", messageBody);
     addSensor2Measurement(messageBody);
     response.code = CREATED_201_POST_MEASUREMENT;
     return response;
@@ -162,7 +157,6 @@ void addSensor1Measurement(int dataSensor1) {
 }
 
 void addSensor2Measurement(int dataSensor2) {
-  // printf(" dataSensor2 %i \n", dataSensor2);
   cbAdd(buffer2, (cbtype)dataSensor2);
   addToAverageSensor2(dataSensor2);
 }

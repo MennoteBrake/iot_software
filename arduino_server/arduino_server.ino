@@ -49,15 +49,6 @@ void loop() {
                             clientRead};
     struct response response = handleRequest(stream);
     createResponse(response);
-    // if (response.code == INTERNAL_SERVER_ERROR_500) {
-    //   httpClient.println(
-    //       F("HTTP/1.1 500 Internal Server Error"));
-    //   httpClient.println();
-    // } else {
-    //   httpClient.println(
-    //       F("HTTP/1.1 500 Internal Server Error"));
-    //   httpClient.println();
-    // }
 
     Serial.print("response code: ");
     Serial.println(response.code);
