@@ -4,21 +4,19 @@
 
 - punt 5 -> gemiddelde ophalen -> "Als gevolg van deze actie wordt de circulaire buffer geleegd."
 - langdurig gemiddelde
-
-- voor de regressie lijn kijken naar hoe het in de acceptatie test voor de rpi is gedaan qua getallen en van daar afleiden hoe het verder moet
-
+- alle punten nalopen
 
 ## regressie
-zie pagina 72/73 of 75 van de reader
+The regression is implemented based on the formulas from of the following PDF: ```http://lab.scalda.nl/pdf/kwrov.pdf``` 
+
+In the code the formulas are split so it takes less time to calculate everything, and so the code is easier to read. 
 
 
-61 476
-191 54
-447 407
 
-b0 +-= 813.6179109891815
-b1 +-= -6.265623131725814
-b2 +-= 0.01198202097449192
-R2 +-= 1.0
-1904
-   
+To test the regression.py file, you can use the following main:
+
+```
+if __name__ == "__main__":
+    data = [[61, 191, 447], [476, 54, 407]]
+    print (regression(data))
+```

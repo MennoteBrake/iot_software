@@ -1,6 +1,8 @@
+# calculates the y value of point x according to the formula. 
 def calcYPoint(a, b, c, x) :
     return (a*(x**2) + (b * x) + c)
 
+# Calculates the Determinant
 def calcDeterminant(a, b, c, data, meanY) :
     error1Squared = []
     error2Squared = []
@@ -20,6 +22,7 @@ def calcDeterminant(a, b, c, data, meanY) :
     else :
         return 0
 
+# Calculates the regression
 def regression(data):
     xSum = 0
     ySum = 0
@@ -62,9 +65,3 @@ def regression(data):
     arr = [a,b,c, coefficientOfDetermination] 
     calcDeterminant(a, b, c, data, meanY)
     return arr
-
-# For debugging purposes
-
-# if __name__ == "__main__":
-#     data = [[61, 191, 447], [476, 54, 407]]
-#     print (regression(data))
