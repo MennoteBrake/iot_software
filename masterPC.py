@@ -11,8 +11,10 @@ def getActualDataSensor1() :
     req = "GET /sensors/1/actual HTTP/1.0\r\n\r\n"
     response = requests_raw.raw(url=arduinoAddress, data=req)
     if response.status_code == 200:
+        global actualSensor1
         actualSensor1 = response.content.decode('ascii')
         print("actual " + actualSensor1)
+    
     else :
         print ("ERROR. It gives the following status code: " + str(response.status_code))
 
@@ -20,6 +22,7 @@ def getActualDataSensor2() :
     req = "GET /sensors/2/actual HTTP/1.0\r\n\r\n"
     response = requests_raw.raw(url=arduinoAddress, data=req)
     if response.status_code == 200:
+        global actualSensor2 
         actualSensor2 = response.content.decode('ascii')
         print("actual " + actualSensor2)
     else :
@@ -49,7 +52,7 @@ POST /data HTTP/1.0\r\n\
 Content-Length: " + str(contentLength) + "\r\n\
 \r\n\
 "+ str(actualSensor1) + " " + str(actualSensor2)
-    print (req)
+
     response = requests_raw.raw(url=rpiAddress, data=req)
     if response.status_code != 201 : 
         print ("ERROR. It gives the following status code: " + str(response.status_code))
