@@ -20,14 +20,16 @@ def calculate_statistics() :
     db = get_restserver_db()
     cur = db.execute('SELECT id, dataSensor1, dataSensor2 FROM data ORDER BY id')
     rows = cur.fetchall()
-
+    # If there are less than three sets of data it will return all 0's
+    if len(rows) < 3 :
+        return [0, 0, 0, 0]
     arr=[]
     for i in range(1,3):
         col = []
         for j in range(len(rows)): 
             col.append(rows[j][i])
         arr.append(col)
-    print(arr)
+    # print(arr)
     return regression(arr)
 
 @app.teardown_appcontext
@@ -48,19 +50,9 @@ def get_allsensordata():
 
 @app.route('/statistics', methods=['GET'])
 def get_statistics():
-    # needs to calculate b0, b1, b2 en R2 when there are more than 3 sets of data
-    # needs to be non json and seperated with a space
-
     data = calculate_statistics()
     print (data)
-    return make_response(str(data[2]) + " " + str(data[1]) + " " + str(data[0]) + " " + str(data[3]), 200)
-
-    # task_id = 0
-    # tasks = []
-    # task = [task for task in tasks if task['id'] == task_id]
-    # if len(task) == 0:
-    #     abort(404)
-    # return jsonify({'task': task[0]})
+    return make_response(str(round(data[2], 1)) + " " + str(round(data[1], 1)) + " " + str(round(data[0], 1)) + " " + str(round(data[3], 1)), 200)
 
 @app.route('/data', methods=['POST'])
 def add_data():

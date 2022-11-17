@@ -47,6 +47,7 @@ void loop() {
 
     struct stream stream = {clientAvailable, clientPeek,
                             clientRead};
+    enableHttpReqLED();
     struct response response = handleRequest(stream);
     createResponse(response);
 
@@ -58,6 +59,8 @@ void loop() {
     Serial.println("client disconnected");
   }
 
+  disableInterruptLED();
+  disableHttpReqLED();
   ledsBufferFull(isABufferFull());
   if (getSensorModus() == 0) // 0 is active mode
   {
@@ -66,9 +69,12 @@ void loop() {
 }
 
 void onInterrupt() {
+  Serial.println("interrupt");
   if (resetBuffers() == 0) {
     ledsOnErrorMode();
+    return;
   }
+  enableInterruptLED();
 }
 
 void createResponse(struct response response) {

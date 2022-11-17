@@ -2,7 +2,7 @@
 def calcYPoint(a, b, c, x) :
     return (a*(x**2) + (b * x) + c)
 
-# Calculates the Determinant
+# Calculates the Determinant r2 = 1 - (rss/tss)
 def calcDeterminant(a, b, c, data, meanY) :
     error1Squared = []
     error2Squared = []
@@ -56,12 +56,11 @@ def regression(data):
     partF = xSquareYSum - ((xSquareSum * ySum)/ amountOfValues)
 
     a = ((partC * partD) - (partA * partF)) / ((partD ** 2) - (partA * partE))
-    print ("a ===")
-    print (a)
     b = (partC - (a * partD)) / partA
     
     c = (ySum - (b * xSum) - (a * xSquareSum)) / amountOfValues
     coefficientOfDetermination = calcDeterminant(a, b, c, data, meanY)
+    # coefficientOfDetermination = ((xySum - ((xSum * ySum) / len(data[x]))) **2) / ((xSquareSum - ((xSum ** 2) / len(data[x]))) * (ySquareSum - ((ySum ** 2) / len(data[y]))))
     arr = [a,b,c, coefficientOfDetermination] 
-    calcDeterminant(a, b, c, data, meanY)
+    
     return arr
