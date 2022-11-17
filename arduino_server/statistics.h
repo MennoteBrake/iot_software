@@ -81,4 +81,8 @@ void resetMeasurementsSensor1();
  * 
  */
 void resetMeasurementsSensor2();
+
+unsigned int getamountOfSensorMeasuresSensor1();
+unsigned int getsumQuadrantSensor1();
+unsigned int getdataSumSensor1();
 #endif

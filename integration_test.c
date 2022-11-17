@@ -944,12 +944,12 @@ Content-Length: 3\r\n\
     g_assert_cmpint(received.code, ==, OK_200_GET_AVG);
     g_assert_cmpfloat_with_epsilon(received.get_avg, 373.8, 0.1);
   }
-  // {
-  //   reset_buffer("GET /sensors/1/actual HTTP/1.0\r\n\r\n");
-  //   struct response received = handleRequest(stream);
-  //   g_assert_cmpint(received.code, ==, OK_200_GET_ACTUAL);
-  //   g_assert_cmpfloat_with_epsilon(received.get_actual, 501, 0.1);
-  // }
+  {
+    reset_buffer("GET /sensors/1/actual HTTP/1.0\r\n\r\n");
+    struct response received = handleRequest(stream);
+    g_assert_cmpint(received.code, ==, OK_200_GET_ACTUAL);
+    g_assert_cmpfloat_with_epsilon(received.get_actual, 501, 0.1);
+  }
 }
 
 void error_no_values() {

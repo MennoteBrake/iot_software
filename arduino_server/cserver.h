@@ -82,4 +82,11 @@ int getSensorModus();
  * @return int returns 0 when failed, and 1 when successful
  */
 int resetBuffers();
+
+/**
+ * @brief Empties the buffer
+ * 
+ * @param buffer The buffer to empty
+ */
+void cbEmpty(cbuffer* buffer);
 #endif

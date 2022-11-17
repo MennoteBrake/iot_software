@@ -81,12 +81,14 @@ struct response makeResponse(struct request* request, int messageBody) {
   case ACTUAL1:
     response.code = OK_200_GET_ACTUAL;
     response.get_actual = getActual(buffer1);
+    cbEmpty(buffer1);
     return response;
     break;
 
   case ACTUAL2:
     response.code = OK_200_GET_ACTUAL;
     response.get_actual = getActual(buffer2);
+    cbEmpty(buffer2);
     return response;
     break;
 
@@ -183,4 +185,10 @@ int resetBuffers() {
   resetMeasurementsSensor2();
 
   return setupBuffers();
+}
+
+void cbEmpty(cbuffer* buffer) {
+  while (cbAvailable(buffer)) {
+    cbRead(buffer);
+  }
 }

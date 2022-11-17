@@ -1,12 +1,12 @@
 #include "statistics.h"
 #include <math.h>
 
-long long dataSumSensor1 = 0;
-long long dataSumSensor2 = 0;
-unsigned int amountOfSensorMeasuresSensor1 = 0;
-unsigned int amountOfSensorMeasuresSensor2 = 0;
-int sumQuadrantSensor1 = 0;
-int sumQuadrantSensor2 = 0;
+unsigned long long dataSumSensor1 = 0;
+unsigned long long dataSumSensor2 = 0;
+unsigned long long amountOfSensorMeasuresSensor1 = 0;
+unsigned long long amountOfSensorMeasuresSensor2 = 0;
+unsigned long long sumQuadrantSensor1 = 0;
+unsigned long long sumQuadrantSensor2 = 0;
 
 void addToAverage(int dataSensor1, int dataSensor2) {
   dataSumSensor1 += dataSensor1;
@@ -14,20 +14,20 @@ void addToAverage(int dataSensor1, int dataSensor2) {
   ++amountOfSensorMeasuresSensor1;
   ++amountOfSensorMeasuresSensor2;
 
-  sumQuadrantSensor1 += dataSensor1 * dataSensor1;
-  sumQuadrantSensor2 += dataSensor2 * dataSensor2;
+  sumQuadrantSensor1 += (dataSensor1 * dataSensor1);
+  sumQuadrantSensor2 += (dataSensor2 * dataSensor2);
 }
 
 void addToAverageSensor1(int dataSensor1) {
   dataSumSensor1 += dataSensor1;
   ++amountOfSensorMeasuresSensor1;
-  sumQuadrantSensor1 += dataSensor1 * dataSensor1;
+  sumQuadrantSensor1 += (dataSensor1 * dataSensor1);
 }
 
 void addToAverageSensor2(int dataSensor2) {
   dataSumSensor2 += dataSensor2;
   ++amountOfSensorMeasuresSensor2;
-  sumQuadrantSensor2 += dataSensor2 * dataSensor2;
+  sumQuadrantSensor2 += (dataSensor2 * dataSensor2);
 }
 
 float getDataAverageSensor1() {
@@ -45,7 +45,7 @@ float getDataAverageSensor2() {
 }
 
 float calcStdev(float sum, float sumQuadrant, int amountOfMeasurements) {
-  float stdev = sqrt((sumQuadrant - sum * sum / amountOfMeasurements) / amountOfMeasurements);
+  float stdev = sqrt((sumQuadrant - (double)sum * sum / amountOfMeasurements) / amountOfMeasurements);
   return (stdev);
 }
 
@@ -93,4 +93,16 @@ void resetMeasurementsSensor2() {
   dataSumSensor2 = 0;
   amountOfSensorMeasuresSensor2 = 0;
   sumQuadrantSensor2 = 0;
+}
+
+unsigned int getamountOfSensorMeasuresSensor1() {
+  return amountOfSensorMeasuresSensor1;
+}
+
+unsigned int getdataSumSensor1() {
+  return dataSumSensor1;
+}
+
+unsigned int getsumQuadrantSensor1() {
+  return sumQuadrantSensor1;
 }
