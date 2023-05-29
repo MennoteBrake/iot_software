@@ -1,4 +1,7 @@
+# import requests
 import requests_raw
+# import sys
+# import os
 import time
 
 arduinoAddress = "http://192.168.1.21"

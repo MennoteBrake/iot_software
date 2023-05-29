@@ -2,6 +2,7 @@
 #include <SPI.h>
 extern "C" {
 #include "cserver.h"
+#include "statistics.h"
 }
 
 byte mac[] = {0xA8, 0x61, 0x0A, 0xAE, 0x6F, 0xAC};
@@ -93,12 +94,16 @@ void createResponse(struct response response) {
     httpClient.print(F("HTTP/1.1 200 OK \r\n\r\n"));
     httpClient.print(response.get_avg);
     httpClient.println();
-    Serial.println(response.get_avg);
     break;
   case OK_200_GET_STDEV:
     httpClient.print(F("HTTP/1.1 200 OK \r\n\r\n"));
     httpClient.print(response.get_stdev);
     httpClient.println();
+
+    Serial.println(getamountOfSensorMeasuresSensor1());
+    Serial.println(getdataSumSensor1());
+    Serial.println(getsumQuadrantSensor1());
+
     Serial.println(response.get_stdev);
     break;
   case OK_200_GET_ACTUAL:

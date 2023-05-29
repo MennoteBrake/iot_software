@@ -51,7 +51,7 @@ cbtype cbPeek(cbuffer* buffer) {
 }
 
 cbtype cbRead(cbuffer* buffer) {
-  if (buffer == NULL){
+  if (buffer == NULL) {
     return 0;
   }
   cbtype bufferVar = buffer->data[buffer->start];
@@ -90,7 +90,7 @@ int8_t cbAdd(cbuffer* buffer, cbtype value) {
 }
 
 cbtype cbPeekPos(cbuffer* buffer, int position) {
-  if (buffer == NULL){
+  if (buffer == NULL) {
     return 0;
   }
   if (position >= buffer->size) {
